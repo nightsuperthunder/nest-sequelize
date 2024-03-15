@@ -52,7 +52,7 @@ export class UsersService {
 
     const { firstName, lastName, email, phone } = updateUserDto;
 
-    if (await this.userModel.findOne({ where: { email } })) {
+    if (email && (await this.userModel.findOne({ where: { email } }))) {
       throw new ForbiddenException('User already exists');
     }
 
@@ -71,6 +71,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user.destroy();
+
+    return await user.destroy();
   }
 }

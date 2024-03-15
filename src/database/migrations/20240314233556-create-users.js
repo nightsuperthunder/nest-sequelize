@@ -10,10 +10,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      firstName: {
+      first_name: {
         type: Sequelize.STRING(50),
       },
-      lastName: {
+      last_name: {
         type: Sequelize.STRING(50),
       },
       email: {
@@ -21,16 +21,16 @@ module.exports = {
         type: Sequelize.STRING(50),
       },
       password: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(150),
       },
       phone: {
         type: Sequelize.STRING(20),
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
