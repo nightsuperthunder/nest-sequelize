@@ -1,9 +1,11 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './models/user.model';
 
@@ -21,11 +23,13 @@ export class UsersService {
       throw new ForbiddenException('User already exists');
     }
 
+    const passwordHash = await bcrypt.hash(password, 10);
+
     return await this.userModel.create<User>({
       firstName,
       lastName,
       email,
-      password,
+      password: passwordHash,
       phone,
     });
   }
@@ -53,7 +57,7 @@ export class UsersService {
     const { firstName, lastName, email, phone } = updateUserDto;
 
     if (email && (await this.userModel.findOne({ where: { email } }))) {
-      throw new ForbiddenException('User already exists');
+      throw new BadRequestException('User with this email already exists');
     }
 
     await user.update({
